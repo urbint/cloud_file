@@ -18,3 +18,6 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+
+# Google Cloud Storage credentials
+/config/gcs_creds.json

@@ -33,7 +33,7 @@ defmodule Cloudfile do
   def read(uri) when is_binary(uri) do
     case Utils.extract_protocol(uri) do
       {:http, url}   -> HTTP.read(url)
-      {:gcs, path}   -> GCS.read(url)
+      {:gcs, path}   -> GCS.read(path)
       {:local, path} -> Local.read(path)
     end
   end
@@ -64,7 +64,7 @@ defmodule Cloudfile do
   def write(uri, content) when is_binary(uri) and is_binary(content) do
     case Utils.extract_protocol(uri) do
       {:http, url}   -> HTTP.write(url, content)
-      {:gcs, path}   -> GCS.write(url, content)
+      {:gcs, path}   -> GCS.write(path, content)
       {:local, path} -> Local.write(path, content)
     end
   end
@@ -94,7 +94,7 @@ defmodule Cloudfile do
   def rm(uri) do
     case Utils.extract_protocol(uri) do
       {:http, url}   -> HTTP.rm(url)
-      {:gcs, path}   -> GCS.rm(url)
+      {:gcs, path}   -> GCS.rm(path)
       {:local, path} -> Local.rm(path)
     end
   end

@@ -22,12 +22,19 @@ defmodule Cloudfile.Utils do
 
   """
   @spec extract_protocol(Cloudfile.uri) :: {Cloudfile.protocol, Cloudfile.path}
-  def extract_protocol(path) do
-    case URI.parse(path) do
-      %URI{scheme: "http", path: path}  -> {:http, path}
-      %URI{scheme: "https", path: path} -> {:http, path}
-      %URI{scheme: "gcs", path: path} -> {:gcs, path}
-      %URI{scheme: nil, path: path} -> {:local, path}
+  def extract_protocol(uri) do
+    case URI.parse(uri) do
+      %URI{scheme: "http", path: path}  ->
+        {:http, uri}
+
+      %URI{scheme: "https", path: path} ->
+        {:http, uri}
+
+      %URI{scheme: "gcs", host: host, path: path} ->
+        {:gcs, "/" <> host <> path}
+
+      %URI{scheme: nil, path: path} ->
+        {:local, path}
     end
   end
 end

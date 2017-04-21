@@ -16,7 +16,7 @@ defmodule Cloudfile.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger],
-     applications: [:httpoison]]
+     applications: [:gcloudex, :httpoison]]
   end
 
   # Dependencies can be Hex packages:
@@ -29,6 +29,10 @@ defmodule Cloudfile.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:httpoison, "~> 0.11.1"}]
+    [
+      {:httpoison, "~> 0.11.1", override: true},
+      {:gcloudex, git: "git@github.com:sashaafm/gcloudex.git"},
+      {:sweet_xml, "~> 0.6.5"},
+    ]
   end
 end
