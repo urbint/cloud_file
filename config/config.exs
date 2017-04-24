@@ -31,3 +31,8 @@ use Mix.Config
 
 config :goth,
   json: File.read!("config/gcs_creds.json")
+
+config :cloudfile,
+  additional_drivers: [
+    Cloudfile.Driver.GCS,
+  ]

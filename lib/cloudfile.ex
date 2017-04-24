@@ -11,23 +11,12 @@ defmodule Cloudfile do
 
   """
 
-  @drivers [
-    Cloudfile.Driver.Local,
-    Cloudfile.Driver.HTTP,
-    Cloudfile.Driver.GCS,
-  ]
-
+  alias Cloudfile.DriverRegistry, as: Drivers
 
   @type uri :: String.t
   @type scheme :: String.t | nil
   @type path :: String.t
   @type reason :: String.t
-
-
-  def init do
-    @drivers
-    |> Enum.each(&DriverRegistry.register/1)
-  end
 
 
   @doc """
@@ -107,7 +96,7 @@ defmodule Cloudfile do
   defp apply_driver(uri, action, args) do
     scheme = get_scheme(uri)
 
-    case DriverRegistry.get_driver(scheme) do
+    case Drivers.get_driver(scheme) do
       nil    -> raise("No registered drivers match the provided URI: \"#{uri}\"")
       driver -> apply(driver, action, args)
     end

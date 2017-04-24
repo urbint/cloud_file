@@ -40,10 +40,13 @@ defmodule Cloudfile.Driver.GCS.Utils do
   @doc """
   Converts an HTTPoison response from GCS to a `:file.posix` error code.
 
+  A table outlining the error codes defined by Google can be found [here](https://cloud.google.com/storage/docs/xml-api/reference-status).
+
   """
   @spec to_posix(HTTPoison.Response.t) :: :file.posix
   def to_posix(res) do
     case extract_error_code(res) do
+      "AccessDenied" -> :eacces
       "NoSuchBucket" -> :enotdir
       "NoSuchKey"    -> :enoent
       key -> {:unrecognized_error, key}
