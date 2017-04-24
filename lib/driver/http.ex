@@ -8,11 +8,10 @@ defmodule Cloudfile.Driver.HTTP do
 
   @behaviour Cloudfile.Driver
 
+  alias Cloudfile.Driver.HTTP.Utils, as: HttpUtils
 
-  @spec supported_scheme?(Cloudfile.scheme) :: boolean
-  def supported_scheme?("http"), do: true
-  def supported_scheme?("https"), do: true
-  def supported_scheme?(_), do: false
+  @spec supported_schemes :: [Cloudfile.scheme]
+  def supported_schemes, do: ["http", "https"]
 
 
   @doc """
@@ -26,7 +25,10 @@ defmodule Cloudfile.Driver.HTTP do
   @spec read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
   def read(url) do
     with {:ok, res} <- HTTPoison.get(url) do
-      {:ok, res.body}
+      case HttpUtils.response_successful?(res) do
+        true  -> {:ok, res.body}
+        false -> {:error, HttpUtils.to_posix(res)}
+      end
     else
       {:error, _reason} = err -> err
     end
@@ -43,8 +45,11 @@ defmodule Cloudfile.Driver.HTTP do
   """
   @spec write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
   def write(url, content) do
-    with {:ok, _res} <- HTTPoison.post(url, content) do
-      :ok
+    with {:ok, res} <- HTTPoison.post(url, content) do
+      case HttpUtils.response_successful?(res) do
+        true  -> {:ok, res.body}
+        false -> {:error, HttpUtils.to_posix(res)}
+      end
     else
       {:error, _reason} = err -> err
     end
@@ -62,8 +67,11 @@ defmodule Cloudfile.Driver.HTTP do
   """
   @spec rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}
   def rm(url) do
-    with {:ok, _res} <- HTTPoison.delete(url) do
-      :ok
+    with {:ok, res} <- HTTPoison.delete(url) do
+      case HttpUtils.response_successful?(res) do
+        true  -> {:ok, res.body}
+        false -> {:error, HttpUtils.to_posix(res)}
+      end
     else
       {:error, _reason} = err -> err
     end

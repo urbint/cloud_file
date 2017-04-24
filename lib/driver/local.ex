@@ -11,9 +11,8 @@ defmodule Cloudfile.Driver.Local do
   Returns true if `scheme` refers to a local path.
 
   """
-  @spec supported_scheme?(Cloudfile.scheme) :: boolean
-  def supported_scheme?(nil), do: true
-  def supported_scheme?(_), do: false
+  @spec supported_schemes :: [Cloudfile.scheme]
+  def supported_schemes, do: []
 
 
   @doc """

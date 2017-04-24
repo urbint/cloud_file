@@ -10,9 +10,8 @@ defmodule Cloudfile.Driver.GCS do
   alias Cloudfile.Driver.GCS.Utils, as: GCSUtils
 
 
-  @spec supported_scheme?(Cloudfile.scheme) :: boolean
-  def supported_scheme?("gcs"), do: true
-  def supported_scheme?(_), do: false
+  @spec supported_schemes :: [Cloudfile.scheme]
+  def supported_schemes, do: ["gcs"]
 
 
   @doc """

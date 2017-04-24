@@ -11,15 +11,23 @@ defmodule Cloudfile do
 
   """
 
-  alias Cloudfile.Driver.HTTP, as: HTTP
-  alias Cloudfile.Driver.GCS, as: GCS
-  alias Cloudfile.Driver.Local, as: Local
+  @drivers [
+    Cloudfile.Driver.Local,
+    Cloudfile.Driver.HTTP,
+    Cloudfile.Driver.GCS,
+  ]
+
 
   @type uri :: String.t
   @type scheme :: String.t | nil
   @type path :: String.t
   @type reason :: String.t
-  @type protocol :: :http | :gcs | :local
+
+
+  def init do
+    @drivers
+    |> Enum.each(&DriverRegistry.register/1)
+  end
 
 
   @doc """
@@ -29,12 +37,7 @@ defmodule Cloudfile do
 
   """
   @spec read(uri) :: {:ok, binary} | {:error, reason}
-  def read(uri) when is_binary(uri) do
-    driver =
-      find_driver(uri)
-
-    driver.read(uri)
-  end
+  def read(uri) when is_binary(uri), do: apply_driver(uri, :read, [uri])
 
 
   @doc """
@@ -59,12 +62,8 @@ defmodule Cloudfile do
 
   """
   @spec write(uri, binary) :: :ok | {:error, reason}
-  def write(uri, content) when is_binary(uri) and is_binary(content) do
-    driver =
-      find_driver(uri)
-
-    driver.write(uri, content)
-  end
+  def write(uri, content) when is_binary(uri) and is_binary(content), do:
+  apply_driver(uri, :write, [uri, content])
 
 
   @doc """
@@ -88,12 +87,7 @@ defmodule Cloudfile do
 
   """
   @spec rm(uri) :: :ok | {:error, reason}
-  def rm(uri) do
-    driver =
-      find_driver(uri)
-
-    driver.rm(uri)
-  end
+  def rm(uri), do: apply_driver(uri, :rm, [uri])
 
 
   @doc """
@@ -110,12 +104,21 @@ defmodule Cloudfile do
     end
   end
 
-  @spec find_driver(uri) :: module
-  defp find_driver(uri) do
-    %URI{scheme: scheme} = URI.parse(uri)
+  defp apply_driver(uri, action, args) do
+    scheme = get_scheme(uri)
 
-    DriverRegistry.to_list(registry)
-    |> Enum.find(& &1.supported_scheme?(scheme))
+    case DriverRegistry.get_driver(scheme) do
+      nil    -> raise("No registered drivers match the provided URI: \"#{uri}\"")
+      driver -> apply(driver, action, args)
+    end
+  end
+
+  @spec get_scheme(Cloudfile.uri) :: Cloudfile.scheme
+  defp get_scheme(uri) do
+    case URI.parse(uri) do
+      %URI{scheme: nil} -> nil
+      %URI{scheme: x}   -> String.downcase(x)
+    end
   end
 
 
