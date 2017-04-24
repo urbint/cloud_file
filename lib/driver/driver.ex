@@ -4,6 +4,7 @@ defmodule Cloudfile.Driver do
 
   """
 
+  @callback supported_scheme?(Cloudfile.scheme) :: boolean
   @callback read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
   @callback write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
   @callback rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}

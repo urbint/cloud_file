@@ -9,6 +9,12 @@ defmodule Cloudfile.Driver.HTTP do
   @behaviour Cloudfile.Driver
 
 
+  @spec supported_scheme?(Cloudfile.scheme) :: boolean
+  def supported_scheme?("http"), do: true
+  def supported_scheme?("https"), do: true
+  def supported_scheme?(_), do: false
+
+
   @doc """
   Reads from the endpoint specified by `url`. Uses a `GET` request under the
   hood.

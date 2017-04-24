@@ -15,9 +15,8 @@ defmodule Cloudfile do
   alias Cloudfile.Driver.GCS, as: GCS
   alias Cloudfile.Driver.Local, as: Local
 
-  alias Cloudfile.Utils, as: Utils
-
   @type uri :: String.t
+  @type scheme :: String.t | nil
   @type path :: String.t
   @type reason :: String.t
   @type protocol :: :http | :gcs | :local
@@ -31,11 +30,10 @@ defmodule Cloudfile do
   """
   @spec read(uri) :: {:ok, binary} | {:error, reason}
   def read(uri) when is_binary(uri) do
-    case Utils.extract_protocol(uri) do
-      {:http, url}   -> HTTP.read(url)
-      {:gcs, path}   -> GCS.read(path)
-      {:local, path} -> Local.read(path)
-    end
+    driver =
+      find_driver(uri)
+
+    driver.read(uri)
   end
 
 
@@ -62,11 +60,10 @@ defmodule Cloudfile do
   """
   @spec write(uri, binary) :: :ok | {:error, reason}
   def write(uri, content) when is_binary(uri) and is_binary(content) do
-    case Utils.extract_protocol(uri) do
-      {:http, url}   -> HTTP.write(url, content)
-      {:gcs, path}   -> GCS.write(path, content)
-      {:local, path} -> Local.write(path, content)
-    end
+    driver =
+      find_driver(uri)
+
+    driver.write(uri, content)
   end
 
 
@@ -92,11 +89,10 @@ defmodule Cloudfile do
   """
   @spec rm(uri) :: :ok | {:error, reason}
   def rm(uri) do
-    case Utils.extract_protocol(uri) do
-      {:http, url}   -> HTTP.rm(url)
-      {:gcs, path}   -> GCS.rm(path)
-      {:local, path} -> Local.rm(path)
-    end
+    driver =
+      find_driver(uri)
+
+    driver.rm(uri)
   end
 
 
@@ -112,6 +108,14 @@ defmodule Cloudfile do
       {:error, reason} ->
         raise File.Error, reason: reason, action: "remove file", path: uri
     end
+  end
+
+  @spec find_driver(uri) :: module
+  defp find_driver(uri) do
+    %URI{scheme: scheme} = URI.parse(uri)
+
+    DriverRegistry.to_list(registry)
+    |> Enum.find(& &1.supported_scheme?(scheme))
   end
 
 

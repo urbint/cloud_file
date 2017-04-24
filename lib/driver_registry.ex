@@ -22,6 +22,7 @@ defmodule DriverRegistry do
     GenServer.call(server, {:to_list})
   end
 
+
   @doc """
   Registers a driver with the Driver Registry.
 

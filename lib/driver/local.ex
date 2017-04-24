@@ -8,6 +8,15 @@ defmodule Cloudfile.Driver.Local do
 
 
   @doc """
+  Returns true if `scheme` refers to a local path.
+
+  """
+  @spec supported_scheme?(Cloudfile.scheme) :: boolean
+  def supported_scheme?(nil), do: true
+  def supported_scheme?(_), do: false
+
+
+  @doc """
   Delegates to Elixir stdlib `File` module.
 
   """
