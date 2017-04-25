@@ -1,4 +1,4 @@
-defmodule CloudFile.Driver.Local do
+defmodule CloudFile.Drivers.Local do
   @moduledoc """
   Implements the `CloudFile.Driver` behaviour for local storage.
 

@@ -1,4 +1,4 @@
-defmodule CloudFile.Driver.HTTP do
+defmodule CloudFile.Drivers.HTTP do
   @moduledoc """
   Implements the `CloudFile.Driver` behaviour for HTTP storage.
 
@@ -8,7 +8,7 @@ defmodule CloudFile.Driver.HTTP do
 
   @behaviour CloudFile.Driver
 
-  alias CloudFile.Driver.HTTP.Utils, as: HttpUtils
+  alias CloudFile.Drivers.HTTP.Utils, as: HttpUtils
 
 
   @spec init :: :ok | no_return

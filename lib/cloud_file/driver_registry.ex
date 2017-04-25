@@ -4,7 +4,7 @@ defmodule CloudFile.DriverRegistry do
 
   """
 
-  @default_drivers [CloudFile.Driver.Local, CloudFile.Driver.HTTP]
+  @default_drivers [CloudFile.Drivers.Local, CloudFile.Drivers.HTTP]
   @additional_drivers Application.get_env(:cloud_file, :additional_drivers, [])
 
   for driver <- @default_drivers ++ @additional_drivers do
