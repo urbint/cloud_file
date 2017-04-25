@@ -38,7 +38,7 @@ defmodule CloudFile.DriverRegistry do
   end
 
   def handle_call({:get_driver, scheme}, _from, drivers) do
-    case Map.get(drivers, scheme) do
+    case Map.get(drivers, String.downcase(scheme)) do
       nil    -> {:reply, {:error, "No driver registered that supports the scheme: \"#{scheme}\""}, drivers}
       driver -> {:reply, {:ok, driver}, drivers}
     end
