@@ -8,7 +8,7 @@ defmodule CloudFile.DriverRegistry do
   def get_driver("http"), do: CloudFile.Driver.HTTP
   def get_driver("https"), do: CloudFile.Driver.HTTP
 
-  @drivers Application.get_env(:cloud_file, :additional_drivers)
+  @drivers Application.get_env(:cloud_file, :additional_drivers, [])
 
   for driver <- @drivers do
     for scheme <- driver.supported_schemes() do

@@ -30,8 +30,6 @@ defmodule CloudFile.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.11.1", override: true},
-      {:gcloudex, git: "git@github.com:sashaafm/gcloudex.git"},
-      {:sweet_xml, "~> 0.6.5"},
     ]
   end
 end
