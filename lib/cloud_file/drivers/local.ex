@@ -10,9 +10,17 @@ defmodule CloudFile.Drivers.Local do
   @spec init :: :ok | no_return
   def init, do: :ok
 
+  @delegation_warning """
+  This function's implementation delegates to the Elixir stdlib's `File`
+  module. Please refer the `File` module's documentation for warnings and
+  considerations.
+  """
 
   @doc """
-  Returns true if `scheme` refers to a local path.
+  Returns the list of supported schemes for the local storage driver.
+
+  Note: this return value is a singleton list with a value of `nil`. This is by
+  design as there is no scheme for a local path in the form of `"/path/to/file"`
 
   """
   @spec supported_schemes :: [CloudFile.scheme]
@@ -20,7 +28,7 @@ defmodule CloudFile.Drivers.Local do
 
 
   @doc """
-  Delegates to Elixir stdlib `File` module.
+  Reads a file from local storage. #{@delegation_warning}
 
   """
   @spec read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
@@ -28,9 +36,9 @@ defmodule CloudFile.Drivers.Local do
 
 
   @doc """
-  Another wrapper around the Elixir stdlib `File` module. Heed the warning
-  defined in the `File.write/3` documentation regarding multiple sequential
-  fs writes.
+  Writes to local storage. Essentially a wrapper around the Elixir stdlib `File`
+  module. Heed the warning defined in the `File.write/3` documentation regarding
+  multiple sequential fs writes.
 
   """
   @spec write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
@@ -40,7 +48,7 @@ defmodule CloudFile.Drivers.Local do
 
 
   @doc """
-  Delegates to Elixir stdlib `File` module.
+  Removes a file from local storage. #{@delegation_warning}
 
   """
   @spec rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
