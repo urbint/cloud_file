@@ -97,8 +97,8 @@ defmodule CloudFile do
     scheme = get_scheme(uri)
 
     case Drivers.get_driver(scheme) do
-      nil    -> raise("No registered drivers match the provided URI: \"#{uri}\"")
-      driver -> apply(driver, action, args)
+      {:error, reason} -> raise("Error fetching driver for URI: \"#{uri}\": #{reason}")
+      {:ok, driver}    -> apply(driver, action, args)
     end
   end
 
