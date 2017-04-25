@@ -1,4 +1,4 @@
-defmodule Cloudfile.Driver.HTTP.Utils do
+defmodule CloudFile.Driver.HTTP.Utils do
   @moduledoc """
   Hosts utility functions to support the HTTP Driver's business logic.
 

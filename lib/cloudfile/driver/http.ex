@@ -1,16 +1,16 @@
-defmodule Cloudfile.Driver.HTTP do
+defmodule CloudFile.Driver.HTTP do
   @moduledoc """
-  Implements the `Cloudfile.Driver` behaviour for HTTP storage.
+  Implements the `CloudFile.Driver` behaviour for HTTP storage.
 
   This module depends on HTTPoison.
 
   """
 
-  @behaviour Cloudfile.Driver
+  @behaviour CloudFile.Driver
 
-  alias Cloudfile.Driver.HTTP.Utils, as: HttpUtils
+  alias CloudFile.Driver.HTTP.Utils, as: HttpUtils
 
-  @spec supported_schemes :: [Cloudfile.scheme]
+  @spec supported_schemes :: [CloudFile.scheme]
   def supported_schemes, do: ["http", "https"]
 
 
@@ -22,7 +22,7 @@ defmodule Cloudfile.Driver.HTTP do
   forwarded along un-altered.
 
   """
-  @spec read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
+  @spec read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
   def read(url) do
     with {:ok, res} <- HTTPoison.get(url) do
       case HttpUtils.response_successful?(res) do
@@ -43,7 +43,7 @@ defmodule Cloudfile.Driver.HTTP do
   forwarded along un-altered.
 
   """
-  @spec write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
+  @spec write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
   def write(url, content) do
     with {:ok, res} <- HTTPoison.post(url, content) do
       case HttpUtils.response_successful?(res) do
@@ -65,7 +65,7 @@ defmodule Cloudfile.Driver.HTTP do
   forwarded along un-altered.
 
   """
-  @spec rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}
+  @spec rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
   def rm(url) do
     with {:ok, res} <- HTTPoison.delete(url) do
       case HttpUtils.response_successful?(res) do

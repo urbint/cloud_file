@@ -1,4 +1,4 @@
-defmodule Cloudfile.Driver.GCS.Utils do
+defmodule CloudFile.Driver.GCS.Utils do
   @moduledoc """
   Hosts utility functions to support Google Cloud Storage business logic.
 
@@ -14,12 +14,12 @@ defmodule Cloudfile.Driver.GCS.Utils do
 
   # Example
 
-    iex> alias Cloudfile.Driver.GCS.Utils
+    iex> alias CloudFile.Driver.GCS.Utils
     ...> Utils.parse_path("gcs://bucket/path/to/file.txt")
     %{bucket: "bucket", path: "path/to/file.txt"}
 
   """
-  @spec parse_path(Cloudfile.uri) :: {String.t, String.t}
+  @spec parse_path(CloudFile.uri) :: {String.t, String.t}
   def parse_path(uri) do
     ["gcs:", bucket | rest] = Path.split(uri)
 
