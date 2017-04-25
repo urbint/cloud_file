@@ -7,12 +7,16 @@ defmodule CloudFile.Driver.Local do
   @behaviour CloudFile.Driver
 
 
+  @spec init :: :ok | no_return
+  def init, do: :ok
+
+
   @doc """
   Returns true if `scheme` refers to a local path.
 
   """
   @spec supported_schemes :: [CloudFile.scheme]
-  def supported_schemes, do: []
+  def supported_schemes, do: [nil]
 
 
   @doc """

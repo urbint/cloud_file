@@ -10,6 +10,11 @@ defmodule CloudFile.Driver.HTTP do
 
   alias CloudFile.Driver.HTTP.Utils, as: HttpUtils
 
+
+  @spec init :: :ok | no_return
+  def init, do: :ok
+
+
   @spec supported_schemes :: [CloudFile.scheme]
   def supported_schemes, do: ["http", "https"]
 
