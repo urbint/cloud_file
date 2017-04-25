@@ -1,17 +1,17 @@
-defmodule Cloudfile.Driver.Local do
+defmodule CloudFile.Driver.Local do
   @moduledoc """
-  Implements the `Cloudfile.Driver` behaviour for local storage.
+  Implements the `CloudFile.Driver` behaviour for local storage.
 
   """
 
-  @behaviour Cloudfile.Driver
+  @behaviour CloudFile.Driver
 
 
   @doc """
   Returns true if `scheme` refers to a local path.
 
   """
-  @spec supported_schemes :: [Cloudfile.scheme]
+  @spec supported_schemes :: [CloudFile.scheme]
   def supported_schemes, do: []
 
 
@@ -19,7 +19,7 @@ defmodule Cloudfile.Driver.Local do
   Delegates to Elixir stdlib `File` module.
 
   """
-  @spec read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
+  @spec read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
   defdelegate read(path), to: File
 
 
@@ -29,7 +29,7 @@ defmodule Cloudfile.Driver.Local do
   fs writes.
 
   """
-  @spec write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
+  @spec write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
   def write(path, content) do
     File.write(path, content, [])
   end
@@ -39,7 +39,7 @@ defmodule Cloudfile.Driver.Local do
   Delegates to Elixir stdlib `File` module.
 
   """
-  @spec rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}
+  @spec rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
   defdelegate rm(path), to: File
 
 

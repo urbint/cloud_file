@@ -1,11 +1,11 @@
-defmodule Cloudfile.Driver do
+defmodule CloudFile.Driver do
   @moduledoc """
-  Behaviour module for creating Cloudfile drivers.
+  Behaviour module for creating CloudFile drivers.
 
   """
 
-  @callback supported_schemes :: [Cloudfile.scheme]
-  @callback read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
-  @callback write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
-  @callback rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}
+  @callback supported_schemes :: [CloudFile.scheme]
+  @callback read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
+  @callback write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
+  @callback rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
 end

@@ -1,4 +1,4 @@
-defmodule Cloudfile do
+defmodule CloudFile do
   @moduledoc """
   Library that creates a unified API for working with files on different storage
   devices.
@@ -11,7 +11,7 @@ defmodule Cloudfile do
 
   """
 
-  alias Cloudfile.DriverRegistry, as: Drivers
+  alias CloudFile.DriverRegistry, as: Drivers
 
   @type uri :: String.t
   @type scheme :: String.t | nil
@@ -102,7 +102,7 @@ defmodule Cloudfile do
     end
   end
 
-  @spec get_scheme(Cloudfile.uri) :: Cloudfile.scheme
+  @spec get_scheme(CloudFile.uri) :: CloudFile.scheme
   defp get_scheme(uri) do
     case URI.parse(uri) do
       %URI{scheme: nil} -> nil

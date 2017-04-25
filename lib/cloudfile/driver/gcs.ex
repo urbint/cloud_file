@@ -1,16 +1,16 @@
-defmodule Cloudfile.Driver.GCS do
+defmodule CloudFile.Driver.GCS do
   @moduledoc """
-  Implements the `Cloudfile.Driver` behaviour for Google Cloud Storage.
+  Implements the `CloudFile.Driver` behaviour for Google Cloud Storage.
 
   """
 
-  @behaviour Cloudfile.Driver
+  @behaviour CloudFile.Driver
 
   alias GCloudex.CloudStorage.Client, as: Storage
-  alias Cloudfile.Driver.GCS.Utils, as: GCSUtils
+  alias CloudFile.Driver.GCS.Utils, as: GCSUtils
 
 
-  @spec supported_schemes :: [Cloudfile.scheme]
+  @spec supported_schemes :: [CloudFile.scheme]
   def supported_schemes, do: ["gcs"]
 
 
@@ -18,7 +18,7 @@ defmodule Cloudfile.Driver.GCS do
   Reads the file specified by `path`.
 
   """
-  @spec read(Cloudfile.uri) :: {:ok, binary} | {:error, Cloudfile.reason}
+  @spec read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
   def read(path) do
     {bucket, filepath} =
       GCSUtils.parse_path(path)
@@ -40,7 +40,7 @@ defmodule Cloudfile.Driver.GCS do
   temporary file is created, referenced, and afterwards removed.
 
   """
-  @spec write(Cloudfile.uri, binary) :: :ok | {:error, Cloudfile.reason}
+  @spec write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
   def write(path, content) do
     {bucket, filepath} =
       GCSUtils.parse_path(path)
@@ -60,7 +60,7 @@ defmodule Cloudfile.Driver.GCS do
   Removes the file specified by `path`.
 
   """
-  @spec rm(Cloudfile.uri) :: :ok | {:error, Cloudfile.reason}
+  @spec rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
   def rm(path) do
     {bucket, filepath} =
       GCSUtils.parse_path(path)

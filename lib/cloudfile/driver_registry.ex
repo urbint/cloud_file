@@ -1,14 +1,14 @@
-defmodule Cloudfile.DriverRegistry do
+defmodule CloudFile.DriverRegistry do
   @moduledoc """
-  Registry for Cloudfile drivers. Drivers must register here on initialization.
+  Registry for CloudFile drivers. Drivers must register here on initialization.
 
   """
 
-  def get_driver(nil), do: Cloudfile.Driver.Local
-  def get_driver("http"), do: Cloudfile.Driver.HTTP
-  def get_driver("https"), do: Cloudfile.Driver.HTTP
+  def get_driver(nil), do: CloudFile.Driver.Local
+  def get_driver("http"), do: CloudFile.Driver.HTTP
+  def get_driver("https"), do: CloudFile.Driver.HTTP
 
-  @drivers Application.get_env(:cloudfile, :additional_drivers)
+  @drivers Application.get_env(:cloud_file, :additional_drivers)
 
   for driver <- @drivers do
     for scheme <- driver.supported_schemes() do

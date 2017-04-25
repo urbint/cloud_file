@@ -1,6 +1,6 @@
-# Cloudfile
+# CloudFile
 
-Cloudfile is an attempt to create a unified API for working with files on
+CloudFile is an attempt to create a unified API for working with files on
 different storage devices.
 
 This should allow developers to use familiar APIs while minimizing the number of
@@ -11,11 +11,11 @@ another.
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `cloudfile` to your list of dependencies in `mix.exs`:
+by adding `cloud_file` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:cloudfile, "~> 0.1.0"}]
+  [{:cloud_file, "~> 0.1.0"}]
 end
 ```
 
@@ -24,25 +24,25 @@ end
 
 ### Google Cloud Storage
 
-Using Cloudfile is easy. Here is an example using Google Cloud Storage:
+Using CloudFile is easy. Here is an example using Google Cloud Storage:
 
 #### Write
 
 ```elixir
-Cloudfile.write("gcs://my-bucket/file.txt", "Testing, testing...")
+CloudFile.write("gcs://my-bucket/file.txt", "Testing, testing...")
 :ok
 ```
 
 #### Read
 
 ```elixir
-Cloudfile.read!("gcs://my-bucket/file.txt")
+CloudFile.read!("gcs://my-bucket/file.txt")
 "Testing, testing..."
 ```
 
 #### Remove
 ```elixir
-Cloudfile.rm("gcs://my-bucket/file.txt")
+CloudFile.rm("gcs://my-bucket/file.txt")
 :ok
 ```
 
@@ -52,20 +52,20 @@ If your team decides to switch to Amazon's S3 storage, the code becomes:
 #### Write
 
 ```elixir
-Cloudfile.write("s3://my-bucket/file.txt", "Testing, testing...")
+CloudFile.write("s3://my-bucket/file.txt", "Testing, testing...")
 :ok
 ```
 
 #### Read
 
 ```elixir
-Cloudfile.read!("s3://my-bucket/file.txt")
+CloudFile.read!("s3://my-bucket/file.txt")
 "Testing, testing..."
 ```
 
 #### Remove
 ```elixir
-Cloudfile.rm("s3://my-bucket/file.txt")
+CloudFile.rm("s3://my-bucket/file.txt")
 :ok
 ```
 

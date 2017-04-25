@@ -37,7 +37,7 @@ defmodule MockDriver do
   Mock Driver to `DriverRegistryTest`
 
   """
-  @behaviour Cloudfile.Driver
+  @behaviour CloudFile.Driver
 
   defdelegate read(path), to: File
 
