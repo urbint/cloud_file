@@ -76,7 +76,7 @@ Simple!
 
  - [x] local storage
  - [x] HTTP & HTTPS
- - [x] Google Cloud Storage
- - [ ] Amazon S3
+ - [x] Google Cloud Storage - [link](https://github.com/urbint/cloud_file_gcs)
+ - [x] Amazon S3 - [link](https://github.com/urbint/cloud_file_s3)
  - [ ] Box
  - [ ] FTP & SFTP
