@@ -1,4 +1,4 @@
-defmodule CloudFile.Drivers.Driver do
+defmodule CloudFile.Driver do
   @moduledoc """
   Behaviour module for creating CloudFile drivers.
 
