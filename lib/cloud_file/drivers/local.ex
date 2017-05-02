@@ -1,10 +1,10 @@
 defmodule CloudFile.Drivers.Local do
   @moduledoc """
-  Implements the `CloudFile.Driver` behaviour for local storage.
+  Implements the `CloudFile.Driver` for local storage.
 
   """
 
-  @behaviour CloudFile.Driver
+  use CloudFile.Driver
 
 
   @spec init :: :ok | no_return
@@ -53,6 +53,14 @@ defmodule CloudFile.Drivers.Local do
   """
   @spec rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
   defdelegate rm(path), to: File
+
+
+  @doc """
+  Returns true if the given `path` exists. #{@delegation_warning}
+
+  """
+  @spec exists?(CloudFile.uri) :: boolean
+  defdelegate exists?(path), to: File
 
 
 end
