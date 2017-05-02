@@ -63,4 +63,16 @@ defmodule CloudFile.Drivers.Local do
   defdelegate exists?(path), to: File
 
 
+  @doc """
+  Returns the list of files in the given directory pointed to by `path`.
+
+  Returns `{:ok, [files]}` in case of success, `{:error, reason}` otherwise.
+
+  #{@delegation_warning}
+
+  """
+  @spec ls(CloudFile.uri) :: boolean
+  defdelegate ls(path), to: File
+
+
 end

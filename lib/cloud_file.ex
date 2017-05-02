@@ -31,7 +31,7 @@ defmodule CloudFile do
 
   @doc """
   Returns a binary with the contents of the given filename or raises a
-  `File.Error` when an error occurs.
+  `CloudFile.Error` when an error occurs.
 
   """
   @spec read!(uri) :: binary | no_return
@@ -40,7 +40,7 @@ defmodule CloudFile do
       content
     else
       {:error, reason} ->
-        raise File.Error, reason: reason, action: "read file", path: uri
+        raise CloudFile.Error, reason: reason, action: "read file", path: uri
     end
   end
 
@@ -57,7 +57,7 @@ defmodule CloudFile do
 
   @doc """
   Writes `content` to the file pointed to by `uri`. Returns `:ok` if successful.
-  Raises a `File.Error` otherwise.
+  Raises a `CloudFile.Error` otherwise.
 
   """
   @spec write!(uri, binary) :: :ok | no_return
@@ -66,7 +66,7 @@ defmodule CloudFile do
       :ok
     else
       {:error, reason} ->
-        raise File.Error, reason: reason, action: "write file", path: uri
+        raise CloudFile.Error, reason: reason, action: "write file", path: uri
     end
   end
 
@@ -89,17 +89,9 @@ defmodule CloudFile do
       :ok
     else
       {:error, reason} ->
-        raise File.Error, reason: reason, action: "remove file", path: uri
+        raise CloudFile.Error, reason: reason, action: "remove file", path: uri
     end
   end
-
-
-  @doc """
-  Attempts to delete the file pointed to by `uri`.
-
-  """
-  @spec rm(uri) :: :ok | {:error, reason}
-  def rm(uri), do: apply_driver(uri, :rm, [uri])
 
 
   @doc """
@@ -119,6 +111,30 @@ defmodule CloudFile do
   """
   @spec exists?(uri) :: :ok | no_return
   def exists?(uri), do: apply_driver(uri, :exists?, [uri])
+
+
+  @doc """
+  Returns the list of files in the given directory. Absolute and relative paths work for some
+  drivers but relative paths might not make sense for certain drivers.
+
+  """
+  @spec ls(uri) :: {:ok, [binary]} | {:error, reason}
+  def ls(uri), do: apply_driver(uri, :ls, [uri])
+
+
+  @doc """
+  The same as `ls/1` but raise `CloudFile.Error` in the case of an error.
+
+  """
+  @spec ls!(uri) :: [binary]
+  def ls!(uri) do
+    with {:ok, files} <- rm(uri) do
+      files
+    else
+      {:error, reason} ->
+        raise CloudFile.Error, reason: reason, action: "list directory", path: uri
+    end
+  end
 
 
   defp apply_driver(uri, action, args) do
