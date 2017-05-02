@@ -93,12 +93,47 @@ defmodule CloudFile do
     end
   end
 
+
+  @doc """
+  Attempts to delete the file pointed to by `uri`.
+
+  """
+  @spec rm(uri) :: :ok | {:error, reason}
+  def rm(uri), do: apply_driver(uri, :rm, [uri])
+
+
+  @doc """
+  Returns `true` if the given `path` exists. Files refer to anything that Unix would refer to as a
+  file. This includes:
+
+  * files
+  * directories
+  * sockets
+  * symlinks
+  * named pipes (i.e. `/dev/null`)
+  * device files
+
+  This spec borrowed from `File.exists?/1` in the Elixir stdlib. Refer to that documentation for
+  additional information.
+
+  """
+  @spec exists?(uri) :: :ok | no_return
+  def exists?(uri), do: apply_driver(uri, :exists?, [uri])
+
+
   defp apply_driver(uri, action, args) do
     scheme = get_scheme(uri)
 
     case Drivers.get_driver(scheme) do
       {:error, reason} -> raise("Error fetching driver for URI: \"#{uri}\": #{reason}")
-      {:ok, driver}    -> apply(driver, action, args)
+      {:ok, driver}    -> apply_if_implemented!(driver, action, args)
+    end
+  end
+
+  defp apply_if_implemented!(driver, action, args) do
+    case apply(driver, action, args) do
+      {:error, :not_implemented} -> raise("Function `#{to_string(action)}/#{length(args)}` not implemented for driver `#{inspect(driver)}`")
+      result -> result
     end
   end
 

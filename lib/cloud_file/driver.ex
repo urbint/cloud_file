@@ -1,12 +1,31 @@
 defmodule CloudFile.Driver do
   @moduledoc """
-  Behaviour module for creating CloudFile drivers.
+  Module for creating CloudFile drivers.
 
   """
 
-  @callback init :: :ok | no_return
-  @callback supported_schemes :: [CloudFile.scheme]
-  @callback read(CloudFile.uri) :: {:ok, binary} | {:error, CloudFile.reason}
-  @callback write(CloudFile.uri, binary) :: :ok | {:error, CloudFile.reason}
-  @callback rm(CloudFile.uri) :: :ok | {:error, CloudFile.reason}
+  defmacro __using__(_opts) do
+    quote do
+      @doc false
+      def init, do: {:error, :not_implemented}
+
+      @doc false
+      def supported_schemes, do: {:error, :not_implemented}
+
+      @doc false
+      def read(_), do: {:error, :not_implemented}
+
+      @doc false
+      def write(_, _), do: {:error, :not_implemented}
+
+      @doc false
+      def rm(_), do: {:error, :not_implemented}
+
+      @doc false
+      def exists?(_), do: {:error, :not_implemented}
+
+      defoverridable [init: 0, supported_schemes: 0, read: 1, write: 2, rm: 1, exists?: 1]
+    end
+
+  end
 end

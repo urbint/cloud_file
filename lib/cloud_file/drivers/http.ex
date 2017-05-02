@@ -1,6 +1,6 @@
 defmodule CloudFile.Drivers.HTTP do
   @moduledoc """
-  Implements the `CloudFile.Driver` behaviour for HTTP storage.
+  Implements the `CloudFile.Driver` for HTTP storage.
 
   Note: This module depends on HTTPoison.
   Todo: Refactor impl to use an HTTP adapter so that other HTTP drivers can be
@@ -8,7 +8,7 @@ defmodule CloudFile.Drivers.HTTP do
 
   """
 
-  @behaviour CloudFile.Driver
+  use CloudFile.Driver
 
   alias CloudFile.Drivers.HTTP.Utils, as: HttpUtils
 
