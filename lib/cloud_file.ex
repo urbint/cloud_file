@@ -109,7 +109,7 @@ defmodule CloudFile do
   additional information.
 
   """
-  @spec exists?(uri) :: :ok | no_return
+  @spec exists?(uri) :: boolean
   def exists?(uri), do: apply_driver(uri, :exists?, [uri])
 
 
